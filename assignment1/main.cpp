@@ -59,7 +59,7 @@ struct Course {
  * @param courses  A vector of courses to populate.
  */
 void parse_csv(std::string filename, std::vector<Course>& courses) {
-  std::ifstream csv_file(filename);
+  std::ifstream csv_file { filename };
   std::string line;
   std::getline(csv_file, line);
   std::getline(csv_file, line);
@@ -91,7 +91,7 @@ void parse_csv(std::string filename, std::vector<Course>& courses) {
  *                    This vector will be modified by removing all offered courses.
  */
 void write_courses_offered(std::vector<Course>& all_courses) {
-  std::ofstream csv_file(COURSES_OFFERED_PATH);
+  std::ofstream csv_file { COURSES_OFFERED_PATH };
   csv_file << "Title,Number of Units,Quarter\n";
   std::vector<Course> unlisted_courses;
   for (const auto& elem : all_courses) {
@@ -120,7 +120,7 @@ void write_courses_offered(std::vector<Course>& all_courses) {
  * @param unlisted_courses A vector of courses that are not offered.
  */
 void write_courses_not_offered(std::vector<Course> unlisted_courses) {
-  std::ofstream csv_file(COURSES_NOT_OFFERED_PATH);
+  std::ofstream csv_file { COURSES_NOT_OFFERED_PATH };
   csv_file << "Title,Number of Units,Quarter\n";
   for (const auto& elem : unlisted_courses) {
     csv_file << elem.title << ',' << elem.number_of_units << ','  << elem.quarter << '\n';
