@@ -1,6 +1,6 @@
 # CS106L Assignments 
 
-*This is my own solutions to the assignments*.
+**This is my own solutions to the assignments**.
 
 This repository contains starter code for Stanford CS106L, a course on Standard C++ programming.
 
