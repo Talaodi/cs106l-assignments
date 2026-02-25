@@ -13,8 +13,9 @@
 #include <set>
 #include <string>
 #include <unordered_set>
+#include <sstream>
 
-std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
+std::string kYourName = "Ta Laodi"; // Don't forget to change this!
 
 /**
  * Takes in a file name and returns a set containing all of the applicant names as a set.
@@ -27,8 +28,24 @@ std::string kYourName = "STUDENT TODO"; // Don't forget to change this!
  * below it) to use a `std::unordered_set` instead. If you do so, make sure
  * to also change the corresponding functions in `utils.h`.
  */
-std::set<std::string> get_applicants(std::string filename) {
-  // STUDENT TODO: Implement this function.
+std::unordered_set<std::string> get_applicants(std::string filename) {
+  std::unordered_set<std::string> applicants;
+  std::ifstream student_file { filename };
+  std::string name;
+  std::getline(student_file, name);
+  while (student_file) {
+    applicants.insert(name);
+    std::getline(student_file, name);
+  }
+  student_file.close();
+  return applicants;
+}
+
+std::pair<char, char> get_first_letters(std::string name) {
+  std::istringstream buf { name };
+  std::string first, second;
+  buf >> first >> second;
+  return { first[0], second[0] };
 }
 
 /**
@@ -39,8 +56,15 @@ std::set<std::string> get_applicants(std::string filename) {
  * @param students  The set of student names.
  * @return          A queue containing pointers to each matching name.
  */
-std::queue<const std::string*> find_matches(std::string name, std::set<std::string>& students) {
-  // STUDENT TODO: Implement this function.
+std::queue<const std::string*> find_matches(std::string name, std::unordered_set<std::string>& students) {
+  std::queue<const std::string*> matches;
+  auto name_first_letters = get_first_letters(name);
+  for (auto& student : students) {
+    if (name_first_letters == get_first_letters(student)) {
+      matches.push(&student);
+    }
+  }
+  return matches;
 }
 
 /**
@@ -54,7 +78,10 @@ std::queue<const std::string*> find_matches(std::string name, std::set<std::stri
  *                Will return "NO MATCHES FOUND." if `matches` is empty.
  */
 std::string get_match(std::queue<const std::string*>& matches) {
-  // STUDENT TODO: Implement this function.
+  if (matches.empty()) {
+    return "NO MATCHES FOUND.";
+  }
+  return *matches.front();
 }
 
 /* #### Please don't remove this line! #### */
